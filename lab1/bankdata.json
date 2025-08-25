@@ -8,7 +8,7 @@
       "kontonummer": "1234.56.78901",
       "type": "Brukskonto",
       "navn": "Lønnskonto",
-      "saldo": 15000.5,
+      "saldo": 65000.5,
       "rente": 0.0
     },
     {
@@ -24,7 +24,7 @@
       "navn": "neste ferie",
       "saldo": 0,
       "rente": 0.03
-    },
+    }
   ],
   "lån": [
     {
