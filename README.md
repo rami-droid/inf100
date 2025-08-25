@@ -1,1 +1,3 @@
-# INF100 oppgaver og sånt
+# INF100 assignemnts and labs
+
+Simple github repo for all uni assignments and labs from inf100
