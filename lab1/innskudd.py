@@ -7,5 +7,8 @@ data = json.loads(content)
 
 name = data['personalia']['navn']
 value = data['konti'][0]['saldo']
+value2 = data['konti'][1]['saldo']
 
-print(f"{name} har {value} kroner i innskudd")
+sum_value = value + value2
+
+print(f"{name} har {sum_value} kroner i innskudd")
