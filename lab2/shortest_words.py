@@ -7,11 +7,8 @@ words = data["words"]
 
 shortest = None
 
+min_len = min(len(word) for word in words)
+
 for word in words:
-    if shortest is None or len(word) < len(shortest):
-        shortest = word
-    elif len(word) == len(shortest):
-        shortest += ", " + word
-
-print(shortest)
-
+    if len(word) == min_len:
+        print(word)
