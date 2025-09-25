@@ -1,6 +1,7 @@
-# INF100 assignemnts and labs
+# INF100 assignments and labs
 
-# TODO 
-1. lab2 - overlapping circles
+## TODO
 
-Simple github repo for all uni assignments and labs from inf100
+- lab 3
+
+Simple github repo for all my uni assignments and labs from inf100
