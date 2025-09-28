@@ -4,8 +4,8 @@ running = True
 
 while running:
     if user_input != "no":
-        print("That's cool \n")
-        user_input = str(input("What do you want to talk about?\n")).strip().lower()
+        print("That's cool!")
+        user_input = str(input("Hi! Do you want to talk to me?\n")).strip().lower()
     else:
-        print("Alright, bye!")
+        print("All right, bye!")
         running = False

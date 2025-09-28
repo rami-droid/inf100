@@ -1,3 +1,11 @@
+def vowels(strings):
+    vowels = ["a", "e", "i", "o", "u"]
+    for text in strings:
+        count = 0
+        for char in text.lower():
+            if char in vowels:
+                count += 1
+        print(f'"{text}": {count}')
 if __name__ == "__main__":
     from pathlib import Path
     import json
@@ -9,17 +17,5 @@ if __name__ == "__main__":
 
     strings = load_test_data("strings.json")
 
-    def vowels(strings):
-        for text in strings:
-            text = text.lower()
-            vowels = ["a", "e", "i", "o", "u"]
-            count = 0
-
-            for char in text:
-                for vowel in vowels:
-                    if char == vowel:
-                        count += 1
-
-            print(f'"{text}": {count}')
 
     vowels(strings)
