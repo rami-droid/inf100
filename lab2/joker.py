@@ -7,12 +7,10 @@ with open('joker.json', 'r') as f:
 nums = data['grunntall']
 
 def guess_num(n):
-    if n <= 4:
+    if n > 4:
         return 'ned'
-    elif n <= 9:
-        return 'opp'
     else:
-        return 'out of bounds error'
+        return 'opp'
 
 for number in nums:
     print(guess_num(number))
