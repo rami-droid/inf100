@@ -15,6 +15,6 @@ for num in numbers:
 
     total *= num
 
-    print(f"Tittei! {num} er {kind}")
+    print(f"Tittei! {num} {kind}")
 
 print(f"Produktet av tallene {numbers} er {total}")

@@ -26,7 +26,7 @@ def download_data():
 
 
 def get_first_name_lowercase(person):
-    return person["fornavn"].lower()
+    return person["etternavn"].lower()
 
 
 if __name__ == "__main__":
