@@ -16,5 +16,5 @@ funD_description = "returnerer ny liste, A blir brukt for iterasjon"
 funE_is_destructive = True
 funE_description = "fjerner siste elementet fra a i loopen"
 
-funF_is_destructive = True
+funF_is_destructive = False
 funF_description = "endrer listen"
