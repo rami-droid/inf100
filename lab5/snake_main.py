@@ -1,26 +1,79 @@
+from uib_inf100_graphics.helpers import text_in_box
 from snake_view import draw_board
 import random
 
 
-def app_started(app):
+def make_board(num_rows, num_cols):
+    board = [[0 for _ in range(num_rows)] for _ in range(num_cols)]
+    center: tuple = (num_rows // 2, num_cols // 2)
+    count = 3
+    for i in range(3):
+        x, y = center
+        board[x][y + i] = count
+        count -= 1
+    add_apple_at_random_location(board)
+    return board, center
+
+
+def app_started(app, first_launch=True):
     app.direction = "east"
     app.info_mode = True
-    app.board = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, -1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 2, 3, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ]
+    app.board, app.head_pos = make_board(10, 10)
     app.snake_size = 3
-    app.head_pos = (3, 4)
-    app.state = "active"
+    if first_launch:
+        app.state = "menu"
+    else:
+        app.state = "active"
+    app.start_menu_items = ["start", "highscore", "vs AI"]
+    app.menu_index = 0
+    app.difficulties = ["easy", "medium", "hard"]
+    app.difficulty_index = 0
+    #
     # Modellen.
     # Denne funksjonen kalles én gang ved programmets oppstart.
     # Her skal vi __opprette__ variabler i som behøves i app.
     ...
+
+
+def start_menu(canvas, app):
+    text_in_box(
+        canvas,
+        app.width / 2 - 50,
+        app.height / 6 - 25,
+        app.width / 2 + 50,
+        app.height / 6 + 25,
+        "SNAKE",
+    )
+    y_start = app.height / 3
+    canvas.create_rectangle(
+        app.width / 2 - app.width / 4,
+        y_start,
+        app.width / 2 + app.width / 4,
+        len(app.start_menu_items) * 50 + 20 + y_start,
+    )
+    for i, text in enumerate(app.start_menu_items):
+        item_y = y_start + i * 50 + 30
+        color = "yellow" if i == app.menu_index else "white"
+        canvas.create_text(
+            app.width / 2, item_y, text=text, font=("Arial", 12), fill=color
+        )
+    # canvas.create_text(app.width / 2, app.height / 5, text="SNAKE", font=("Arial", 24))
+
+
+def difficulty_menu(canvas, app):
+    y_start = app.height / 2
+    canvas.create_rectangle(
+        app.width / 2 - app.width / 4,
+        y_start,
+        app.width / 2 + app.width / 4,
+        len(app.difficulties) * 50 + 20 + y_start,
+    )
+    for i, text in enumerate(app.difficulties):
+        item_y = y_start + i * 50 + 30
+        color = "red" if i == app.difficulty_index else "white"
+        canvas.create_text(
+            app.width / 2, item_y, text=text, font=("Arial", 12), fill=color
+        )
 
 
 def is_legal_move(pos: tuple, board):
@@ -29,7 +82,7 @@ def is_legal_move(pos: tuple, board):
     r, c = pos
     if r < 0 or r >= rows or c < 0 or c >= cols:
         return False
-    if board[r][c] != 0:
+    if board[r][c] > 0:
         return False
     return True
 
@@ -87,38 +140,89 @@ def timer_fired(app):
 
 
 def key_pressed(app, event):
-    print(event.key)
+    # MENU
+    if app.state == "menu":
+        if event.key == "Up" or event.key == "k":
+            app.menu_index -= 1
+            app.menu_index = app.menu_index % len(app.start_menu_items)
+        if event.key == "Down" or event.key == "j":
+            app.menu_index += 1
+            app.menu_index = app.menu_index % len(app.start_menu_items)
+        if event.key == "Enter":
+            selected = app.start_menu_items[app.menu_index]
+            if selected == "start":
+                app.state = "difficulty"
+                print(app.state)
+        return
+
+    # DIFFICULTY
+    if app.state == "difficulty":
+        if event.key == "Up" or event.key == "k":
+            app.difficulty_index -= 1
+            app.difficulty_index = app.difficulty_index % len(app.difficulties)
+        if event.key == "Down" or event.key == "j":
+            app.difficulty_index += 1
+            app.difficulty_index = app.difficulty_index % len(app.difficulties)
+        if event.key == "Enter":
+            selected = app.difficulties[app.difficulty_index]
+            if selected == "medium":
+                app.board, app.start_pos = make_board(10, 10)
+                app.timer_delay = 400
+                app.state = "active"
+            elif selected == "easy":
+                app.board, app.start_pos = make_board(7, 7)
+                app.timer_delay = 200
+                app.state = "active"
+                print(app.state)
+            elif selected == "hard":
+                app.board, app.start_pos = make_board(15, 15)
+                app.state = "active"
+                app.timer_delay = 100
+        return
+
+    # GLOBAL KEYS
     if event.key == "i":
         app.info_mode = not app.info_mode
 
-    if app.state != "active":
+    if event.key == "r":
+        app_started(app)
         return
-    if event.key == "Up":
-        app.direction = "north"
-    if event.key == "Down":
-        app.direction = "south"
-    if event.key == "Left":
-        app.direction = "west"
-    if event.key == "Right":
-        app.direction = "east"
-    if event.key == "Space":
-        move_snake(app.direction, app)
-    # En kontroller.
-    # Denne funksjonen kalles hver gang brukeren trykker på tastaturet.
-    # Funksjonen kan __endre på__ eksisterende variabler i app.
-    ...
+
+    # ACTIVE GAME
+    if app.state == "active":
+        if event.key in ("Up", "k", "w"):
+            app.direction = "north"
+        elif event.key in ("Down", "j", "s"):
+            app.direction = "south"
+        elif event.key in ("Left", "h", "a"):
+            app.direction = "west"
+        elif event.key in ("Right", "l", "d"):
+            app.direction = "east"
+        elif event.key == "Space":
+            move_snake(app.direction, app)
 
 
 def redraw_all(app, canvas):
-    draw_board(
-        canvas, 25, 25, app.width - 25, app.height - 25, app.board, app.info_mode
-    )
+    if app.state == "menu":
+        start_menu(canvas, app)
+    if app.state == "difficulty":
+        difficulty_menu(canvas, app)
+    if app.state == "active":
+        draw_board(
+            canvas, 25, 25, app.width - 25, app.height - 25, app.board, app.info_mode
+        )
     if app.info_mode:
         canvas.create_text(app.width / 2, 12, text=f"{app.direction}")
         canvas.create_text(app.width / 2 + 50, 12, text=f"{app.state}")
     if app.state == "gameover":
         canvas.create_text(
             app.width / 2 + 50, app.height / 2, text="Game Over", font=("Arial", 24)
+        )
+        canvas.create_text(
+            app.width / 2 + 50,
+            app.height / 2 + 30,
+            text="press r to restart.",
+            font=("Arial", 12),
         )
     # Visningen.
     # Denne funksjonen tegner vinduet. Funksjonen kalles hver gang
