@@ -1,17 +1,47 @@
 def get_stringsum(s):
-    return sum([eval(n) for n in s.split(' ') if type(eval(n)) is int])
+    statements = s.split(" ")
+    sum = 0
+    for num in statements:
+         try: 
+            sum += int(num)
+         except:
+            continue
+    return sum
+    
 
-def test_get_stringsum():
-    print('Testing get_stringsum... ', end='')
-    assert 6 == get_stringsum('4 2')
-    assert 9 == get_stringsum('5 -1 3 +2')
-    assert 11 == get_stringsum('5 - 1 3 + 2')
-    assert 42 == get_stringsum('42')
-    assert 42 == get_stringsum('forty-one 42 førtitre')
-    assert 42 == get_stringsum('foo2 42 2qux 3x1')
-    assert 0 == get_stringsum('')
-    assert 0 == get_stringsum('foo bar qux')
-    assert 0 == get_stringsum('-9- 3+2')
+   # return sum([eval(n) for n in s.split(' ') if type(eval(n)) is int])
+def get_line_with_highest_stringsum(s):
+    nums = s.strip().split('\n')
+    curr = 0
+    line_nr = 1
+    highest = ''
+    for str in nums:
+        if get_stringsum(str) > curr:
+            curr = get_stringsum(str)
+            highest = str
+        line_nr += 1
+    return (line_nr, curr, highest)
+
+def main(path):
+    with open(path, 'r') as f:
+        line, curr, highest = get_line_with_highest_stringsum(f.read())
+    print(f"Høyeste strengsum er {curr}, funnet først på linje {line}: {highest}")
+
+
+def test_get_line_with_highest_stringsum():
+    print('Testing get_line_with_highest_stringsum... ', end='')
+
+    arg = '4 2\n3 3\n6 6 6 6 12 6\n'
+    assert (3, 42, '6 6 6 6 12 6') == get_line_with_highest_stringsum(arg)
+
+    arg = '4 99 -98\nfoo 42 qux\nfoo bar quz\n'
+    assert (2, 42, 'foo 42 qux') == get_line_with_highest_stringsum(arg)
+
+    arg = '4 2\n3 3\n'
+    assert (1, 6, '4 2') == get_line_with_highest_stringsum(arg)
+
     print('OK')
 
-test_get_stringsum()
+if __name__ == "__main__":
+    path = input("Filnavn: ")
+    main(path)
