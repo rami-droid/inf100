@@ -1,7 +1,7 @@
 def total_income(path):
     with open(path, 'r') as f:
         sum = 0
-        content = f.read().strip().split('\n')
+        content = f.read().splitlines()
         table = [row.split(',') for row in content]
         for items in table[1:]:
             sum += (int(items[2]) - int(items[1])) * int(items[3])
