@@ -4,22 +4,22 @@ def get_stringsum(s):
     for num in statements:
          try: 
             sum += int(num)
-         except:
+         except ValueError:
             continue
     return sum
     
 
-   # return sum([eval(n) for n in s.split(' ') if type(eval(n)) is int])
 def get_line_with_highest_stringsum(s):
     nums = s.strip().split('\n')
-    curr = 0
-    line_nr = 1
+    curr = float('-inf')
+    line_nr = -1
     highest = ''
-    for str in nums:
-        if get_stringsum(str) > curr:
-            curr = get_stringsum(str)
-            highest += f" {str}"
-        line_nr += 1
+    for i, line in enumerate(nums):
+        line_sum = get_stringsum(line)
+        if line_sum > curr:
+            curr = line_sum
+            line_nr = i + 1
+            highest = line
     return (line_nr, curr, highest)
 
 def main(path):
@@ -29,7 +29,7 @@ def main(path):
 
 
 def test_get_line_with_highest_stringsum():
-    print('Testing get_line_with_highest_stringsum... ', end='')
+    print('testing get_line_with_highest_stringsum... ', end='')
 
     arg = '4 2\n3 3\n6 6 6 6 12 6\n'
     assert (3, 42, '6 6 6 6 12 6') == get_line_with_highest_stringsum(arg)
@@ -40,8 +40,10 @@ def test_get_line_with_highest_stringsum():
     arg = '4 2\n3 3\n'
     assert (1, 6, '4 2') == get_line_with_highest_stringsum(arg)
 
-    print('OK')
+    print('ok')
 
-if __name__ == "__main__":
-    path = input("Filnavn: ")
-    main(path)
+test_get_line_with_highest_stringsum()
+
+#if __name__ == "__main__":
+    #path = input("Filnavn: ")
+    # main(path)
