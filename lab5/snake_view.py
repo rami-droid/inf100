@@ -1,4 +1,6 @@
-def get_color(num: int):
+def get_color(num: int, length):
+    if  num == length:
+        return "red"
     if num == 0:
         return "lightgray"
     elif num > 0:
@@ -7,7 +9,7 @@ def get_color(num: int):
         return "cyan"
 
 
-def draw_board(canvas, x1, y1, x2, y2, board, info_mode: bool):
+def draw_board(canvas, x1, y1, x2, y2, board, info_mode: bool, length):
     x_lo, x_hi = sorted((x1, x2))
     y_lo, y_hi = sorted((y1, y2))
 
@@ -22,7 +24,7 @@ def draw_board(canvas, x1, y1, x2, y2, board, info_mode: bool):
 
     for row_i, row in enumerate(board):
         for col_i, num in enumerate(row):
-            color = get_color(num)
+            color = get_color(num, length)
             x0 = x_lo + col_i * x_segment_length
             y0 = y_lo + row_i * y_segment_length
             x1_seg = x0 + x_segment_length
@@ -47,5 +49,5 @@ if __name__ == "__main__":
         [0, 7, 0, 10, 11, 12, -1, -1, 0, 7, 0],
     ]
 
-    draw_board(canvas, 25, 80, 375, 320, test_board, True)
+    draw_board(canvas, 25, 80, 375, 320, test_board, True, 3)
     display(canvas)

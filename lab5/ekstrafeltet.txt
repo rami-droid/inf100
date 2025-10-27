@@ -1,10 +1,6 @@
 1. vim movement og wasd support
-2. La til en start meny med 3 mulige valg
+2. La til en start meny med 2 mulige valg
 3. Restarte spillet ved knappen 'r'
 3. Legge til vanskelighets grader
-
-TODO
-1. finere visuals 
-2. Highscores lagret til json
-3. enkel vs AI modus (kanskje med BFS eller dijkstra)
-4. gameover -> meny
+4. laget en highscore som skriver til en json fil
+5. lagt til en higschores meny som viser alle scorene

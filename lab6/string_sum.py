@@ -18,7 +18,7 @@ def get_line_with_highest_stringsum(s):
     for str in nums:
         if get_stringsum(str) > curr:
             curr = get_stringsum(str)
-            highest = str
+            highest += f" {str}"
         line_nr += 1
     return (line_nr, curr, highest)
 
