@@ -7,7 +7,7 @@ def draw_qr(canvas, x_left, y_top, size, qr):
     
 
     for row_i, row in enumerate(qr):
-        for col_i, color in enumerate(row):
+        for col_i, _ in enumerate(row):
             x0 = x_left + col_i * x_segment_length
             y0 = y_top + row_i * y_segment_length
             x1_seg = x0 + x_segment_length
@@ -16,8 +16,6 @@ def draw_qr(canvas, x_left, y_top, size, qr):
                 canvas.create_rectangle(x0, y0, x1_seg, y1_seg, fill="white", outline = '')
             else: 
                 canvas.create_rectangle(x0, y0, x1_seg, y1_seg, fill="black")
-
-    pass
 
 
 def display(matrix):
