@@ -2,8 +2,8 @@ import json
 from pathlib import Path
 from qr1_draw import display
 
-# from qr3_masking import get_refined_matrix
-from qr_dummies import get_refined_matrix
+from qr3_masking import get_refined_matrix
+# from qr_dummies import get_refined_matrix
 
 # from qr4_zigzag import bit_list_to_raw_matrix
 from qr_dummies import bit_list_to_raw_matrix

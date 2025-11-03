@@ -1,5 +1,4 @@
-import enum
-
+import qr2_matrix_completion
 
 def should_flip(row, col, mask_no):
     match mask_no:
@@ -29,26 +28,26 @@ def get_masked_matrix(matrix: list, mask_no):
             if should_flip(r, c, mask_no):
                 new_matrix[r][c] = 0 if value == 1 else 1
     return new_matrix
+def score_matrix(matrix):
+    zeros = 0
+    ones = 0
+    for r, row in enumerate(matrix):
+        for c, value in enumerate(row):
+            if matrix[r][c] == 0:
+                zeros += 1
+            else:
+                ones += 1
+    return abs(zeros - ones)
 
 
 def get_refined_matrix(raw_matrix, error_correction_level, qr_layout):
-    penalty = 0
-    best_mask = 0
+    best = int("inf")
+    best_iter = 0
     for i in range(0, 7):
         masked_matrix = get_masked_matrix(raw_matrix, i)
-        for r, row in enumerate(masked_matrix):
-            for c, value in enumerate(row):
-                try:
-                    if sum(masked_matrix[r][c:c+5]) == 5:
-                        penalty += 3
-                except IndexError:
-                    pass
-                try:
-                    if sum(masked_matrix[r:r+5]) == 5:
-                        penalty += 3
-                except IndexError:
-                    pass
-
-    #  if curr_penalty < penalty:
-    #      best_mask = i
-    pass
+        curr_score = score_matrix(masked_matrix)
+        if curr_score < best:
+            best_iter = i
+    masked_matrix = get_masked_matrix(raw_matrix, best_iter)
+    masked_matrix =qr2_matrix_completion.set_meta_fields(masked_matrix, error_correction_level, best_iter, qr_layout)
+    masked_matrix = qr2_matrix_completion.set_fixed_fields(masked_matrix, qr_layout)
