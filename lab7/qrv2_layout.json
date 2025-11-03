@@ -8,8 +8,8 @@
     "M": 16,
     "Q": 22,
     "H": 28
-  },
-  "fixed_positions": {
+	},
+	"fixed_positions": {
     "_comment_a": "The 'zeros' key contains a list of [row, col] positions",
     "_comment_b": "that must be 0 (white), and the 'ones' key contains a",
     "_comment_c": "list of [row, col] positions that must be 1 (black) in",
