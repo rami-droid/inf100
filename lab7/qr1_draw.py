@@ -1,4 +1,5 @@
 def draw_qr(canvas, x_left, y_top, size, qr):
+    print(qr)
     num_rows = len(qr)
     num_cols = len(qr[0])
 

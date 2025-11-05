@@ -41,7 +41,7 @@ def score_matrix(matrix):
 
 
 def get_refined_matrix(raw_matrix, error_correction_level, qr_layout):
-    best = int("inf")
+    best = float("inf")
     best_iter = 0
     for i in range(0, 7):
         masked_matrix = get_masked_matrix(raw_matrix, i)
@@ -49,5 +49,6 @@ def get_refined_matrix(raw_matrix, error_correction_level, qr_layout):
         if curr_score < best:
             best_iter = i
     masked_matrix = get_masked_matrix(raw_matrix, best_iter)
-    masked_matrix =qr2_matrix_completion.set_meta_fields(masked_matrix, error_correction_level, best_iter, qr_layout)
     masked_matrix = qr2_matrix_completion.set_fixed_fields(masked_matrix, qr_layout)
+    masked_matrix =qr2_matrix_completion.set_meta_fields(masked_matrix, error_correction_level, best_iter, qr_layout)
+    return masked_matrix
