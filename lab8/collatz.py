@@ -9,4 +9,4 @@ def collatz_sequence(n):
     return sequence
 
 def collect_collatz(a, b):
-    return [collatz_sequence(n) for n in range(a, b)]
+    return {n: collatz_sequence(n) for n in range(a, b)}

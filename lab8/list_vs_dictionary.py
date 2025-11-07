@@ -9,9 +9,9 @@ def key_value_getter(d):
     for key in keys:
         print(key)
 
-    print("\nDictionary values")
-    for value in values:
-        print(value)
+    print("\nDictionary keys/value")
+    for i in range(len(values)):
+          print(f"{keys[i]} {values[i]}")
 
 def index_value_getter(a):
     indeces = []
